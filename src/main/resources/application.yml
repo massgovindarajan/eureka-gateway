@@ -1,89 +1,168 @@
-routes:
-  - id: auth-service
-    uri: https://medvault-backend-production.up.railway.app
-    predicates:
-      - Path=/api/auth/**
+server:
+  port: ${PORT:8080}
 
-  - id: doctor-service
-    uri: https://medvault-backend-production.up.railway.app
-    predicates:
-      - Path=/api/doctors/**
+spring:
+  application:
+    name: api-gateway
 
-  - id: admin-service
-    uri: https://medvault-backend-production.up.railway.app
-    predicates:
-      - Path=/api/admin/**
+  cloud:
+    gateway:
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_FIRST
 
-  - id: slots-service
-    uri: https://medvault-backend-production.up.railway.app
-    predicates:
-      - Path=/api/slots/**
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins:
+              - http://localhost:4200
+              - http://localhost:4201
+              - https://medical-six-dun.vercel.app
+              - https://medical-65ek7uigk-massgovindarajans-projects.vercel.app
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - PATCH
+              - OPTIONS
+            allowedHeaders:
+              - "*"
+            exposedHeaders:
+              - Authorization
+              - Content-Type
+              - X-Total-Count
+            allowCredentials: true
+            maxAge: 3600
 
-  - id: pharmacy-service
-    uri: https://medvault-backend-production.up.railway.app
-    predicates:
-      - Path=/api/pharmacy/**
+      routes:
+        - id: auth-service
+          uri: https://medvault-backend-production.up.railway.app
+          predicates:
+            - Path=/api/auth/**
 
-  - id: patient-service
-    uri: https://medvault-backend-production.up.railway.app
-    predicates:
-      - Path=/api/patients/**
+        - id: doctor-service
+          uri: https://medvault-backend-production.up.railway.app
+          predicates:
+            - Path=/api/doctors/**
 
-  - id: medical-records-service
-    uri: https://medvault-backend-production.up.railway.app
-    predicates:
-      - Path=/api/records/**
+        - id: admin-service
+          uri: https://medvault-backend-production.up.railway.app
+          predicates:
+            - Path=/api/admin/**
 
-  - id: appointment-service
-    uri: https://medvault-backend-production.up.railway.app
-    predicates:
-      - Path=/api/appointments/**
+        - id: slots-service
+          uri: https://medvault-backend-production.up.railway.app
+          predicates:
+            - Path=/api/slots/**
 
-  - id: billing-service
-    uri: https://medvault-backend-production.up.railway.app
-    predicates:
-      - Path=/api/billing/**
+        - id: pharmacy-service
+          uri: https://medvault-backend-production.up.railway.app
+          predicates:
+            - Path=/api/pharmacy/**
 
-  - id: payments-service
-    uri: https://medvault-backend-production.up.railway.app
-    predicates:
-      - Path=/api/payments/**
+        - id: patient-service
+          uri: https://medvault-backend-production.up.railway.app
+          predicates:
+            - Path=/api/patients/**
 
-  - id: notifications-service
-    uri: https://medvault-backend-production.up.railway.app
-    predicates:
-      - Path=/api/notifications/**
-    filters:
-      - RemoveResponseHeader=Transfer-Encoding
+        - id: medical-records-service
+          uri: https://medvault-backend-production.up.railway.app
+          predicates:
+            - Path=/api/records/**
 
-  - id: queue-service
-    uri: https://medvault-backend-production.up.railway.app
-    predicates:
-      - Path=/api/queue/**
+        - id: appointment-service
+          uri: https://medvault-backend-production.up.railway.app
+          predicates:
+            - Path=/api/appointments/**
 
-  - id: reports-service
-    uri: https://medvault-backend-production.up.railway.app
-    predicates:
-      - Path=/api/reports/**
+        - id: billing-service
+          uri: https://medvault-backend-production.up.railway.app
+          predicates:
+            - Path=/api/billing/**
 
-  - id: ratings-service
-    uri: https://medvault-backend-production.up.railway.app
-    predicates:
-      - Path=/api/ratings/**
+        - id: payments-service
+          uri: https://medvault-backend-production.up.railway.app
+          predicates:
+            - Path=/api/payments/**
 
-  - id: public-service
-    uri: https://medvault-backend-production.up.railway.app
-    predicates:
-      - Path=/api/public/**
+        - id: notifications-service
+          uri: https://medvault-backend-production.up.railway.app
+          predicates:
+            - Path=/api/notifications/**
+          filters:
+            - RemoveResponseHeader=Transfer-Encoding
 
-  - id: uploads-service
-    uri: https://medvault-backend-production.up.railway.app
-    predicates:
-      - Path=/uploads/**
-    filters:
-      - AddResponseHeader=Cache-Control, max-age=3600
+        - id: queue-service
+          uri: https://medvault-backend-production.up.railway.app
+          predicates:
+            - Path=/api/queue/**
 
-  - id: chat-service
-    uri: wss://medvault-backend-production.up.railway.app
-    predicates:
-      - Path=/api/chat/**
+        - id: reports-service
+          uri: https://medvault-backend-production.up.railway.app
+          predicates:
+            - Path=/api/reports/**
+
+        - id: ratings-service
+          uri: https://medvault-backend-production.up.railway.app
+          predicates:
+            - Path=/api/ratings/**
+
+        - id: public-service
+          uri: https://medvault-backend-production.up.railway.app
+          predicates:
+            - Path=/api/public/**
+
+        - id: uploads-service
+          uri: https://medvault-backend-production.up.railway.app
+          predicates:
+            - Path=/uploads/**
+          filters:
+            - AddResponseHeader=Cache-Control, max-age=3600
+
+        - id: chat-service
+          uri: wss://medvault-backend-production.up.railway.app
+          predicates:
+            - Path=/api/chat/**
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE:http://eureka-server:8761/eureka/}
+    fetch-registry: true
+    register-with-eureka: true
+    registry-fetch-interval-seconds: 30
+    eureka-server-connect-timeout-seconds: 10
+    eureka-server-read-timeout-seconds: 10
+  instance:
+    prefer-ip-address: false
+    hostname: medvault-gateway
+    non-secure-port: 8080
+    instance-id: ${spring.application.name}:${server.port}
+    health-check-url-path: /actuator/health
+    lease-renewal-interval-in-seconds: 30
+    lease-expiration-duration-in-seconds: 90
+
+jwt:
+  secret: ${JWT_SECRET:medvault_super_secret_key_2024_should_be_very_long_for_security}
+  expiration: 86400000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+          - info
+          - gateway
+  endpoint:
+    gateway:
+      enabled: true
+    health:
+      show-details: always
+
+logging:
+  level:
+    org.springframework.cloud.gateway: INFO
+    org.springframework.security: WARN
+    com.eureka_Gateway: INFO
+    reactor.netty: WARN
