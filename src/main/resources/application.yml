@@ -5,34 +5,16 @@ spring:
   application:
     name: api-gateway
 
+  autoconfigure:
+    exclude:                                                        # ← ADD THIS
+      - org.springframework.boot.autoconfigure.security.reactive.ReactiveSecurityAutoConfiguration
+      - org.springframework.boot.autoconfigure.security.reactive.ReactiveUserDetailsServiceAutoConfiguration
+
   cloud:
     gateway:
-      default-filters:
-        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_FIRST
-
-      globalcors:
-        cors-configurations:
-          '[/**]':
-            allowedOrigins:
-              - http://localhost:4200
-              - http://localhost:4201
-              - https://medical-six-dun.vercel.app
-              - https://medical-65ek7uigk-massgovindarajans-projects.vercel.app
-            allowedMethods:
-              - GET
-              - POST
-              - PUT
-              - DELETE
-              - PATCH
-              - OPTIONS
-            allowedHeaders:
-              - "*"
-            exposedHeaders:
-              - Authorization
-              - Content-Type
-              - X-Total-Count
-            allowCredentials: true
-            maxAge: 3600
+      # ❌ REMOVE default-filters DedupeResponseHeader block
+      # ❌ REMOVE globalcors block entirely
+      # ✅ Keep only routes below
 
       routes:
         - id: auth-service
