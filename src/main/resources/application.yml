@@ -36,91 +36,91 @@ spring:
 
       routes:
         - id: auth-service
-          uri: https://medvault-backend-production.up.railway.app
+          uri: lb://MEDVAULT-BACKEND
           predicates:
             - Path=/api/auth/**
 
         - id: doctor-service
-          uri: https://medvault-backend-production.up.railway.app
+          uri: lb://MEDVAULT-BACKEND
           predicates:
             - Path=/api/doctors/**
 
         - id: admin-service
-          uri: https://medvault-backend-production.up.railway.app
+          uri: lb://MEDVAULT-BACKEND
           predicates:
             - Path=/api/admin/**
 
         - id: slots-service
-          uri: https://medvault-backend-production.up.railway.app
+          uri: lb://MEDVAULT-BACKEND
           predicates:
             - Path=/api/slots/**
 
         - id: pharmacy-service
-          uri: https://medvault-backend-production.up.railway.app
+          uri: lb://MEDVAULT-BACKEND
           predicates:
             - Path=/api/pharmacy/**
 
         - id: patient-service
-          uri: https://medvault-backend-production.up.railway.app
+          uri: lb://MEDVAULT-BACKEND
           predicates:
             - Path=/api/patients/**
 
         - id: medical-records-service
-          uri: https://medvault-backend-production.up.railway.app
+          uri: lb://MEDVAULT-BACKEND
           predicates:
             - Path=/api/records/**
 
         - id: appointment-service
-          uri: https://medvault-backend-production.up.railway.app
+          uri: lb://MEDVAULT-BACKEND
           predicates:
             - Path=/api/appointments/**
 
         - id: billing-service
-          uri: https://medvault-backend-production.up.railway.app
+          uri: lb://MEDVAULT-BACKEND
           predicates:
             - Path=/api/billing/**
 
         - id: payments-service
-          uri: https://medvault-backend-production.up.railway.app
+          uri: lb://MEDVAULT-BACKEND
           predicates:
             - Path=/api/payments/**
 
         - id: notifications-service
-          uri: https://medvault-backend-production.up.railway.app
+          uri: lb://MEDVAULT-BACKEND
           predicates:
             - Path=/api/notifications/**
           filters:
             - RemoveResponseHeader=Transfer-Encoding
 
         - id: queue-service
-          uri: https://medvault-backend-production.up.railway.app
+          uri: lb://MEDVAULT-BACKEND
           predicates:
             - Path=/api/queue/**
 
         - id: reports-service
-          uri: https://medvault-backend-production.up.railway.app
+          uri: lb://MEDVAULT-BACKEND
           predicates:
             - Path=/api/reports/**
 
         - id: ratings-service
-          uri: https://medvault-backend-production.up.railway.app
+          uri: lb://MEDVAULT-BACKEND
           predicates:
             - Path=/api/ratings/**
 
         - id: public-service
-          uri: https://medvault-backend-production.up.railway.app
+          uri: lb://MEDVAULT-BACKEND
           predicates:
             - Path=/api/public/**
 
         - id: uploads-service
-          uri: https://medvault-backend-production.up.railway.app
+          uri: lb://MEDVAULT-BACKEND
           predicates:
             - Path=/uploads/**
           filters:
             - AddResponseHeader=Cache-Control, max-age=3600
 
         - id: chat-service
-          uri: wss://medvault-backend-production.up.railway.app
+          uri: lb:ws://MEDVAULT-BACKEND
           predicates:
             - Path=/api/chat/**
 
